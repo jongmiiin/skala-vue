@@ -1,0 +1,32 @@
+# skala-vue
+
+SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로 구성되어 있다.
+
+## 실습 단원 목록
+
+| 단원     | 경로       | 개요                                         |
+| -------- | ---------- | -------------------------------------------- |
+| Vue 기초 | `/basics`  | Vue 3 기본 문법을 예제 단위로 실행하며 학습  |
+| Weather  | `/weather` | 날씨 대시보드를 5단계에 걸쳐 발전시키며 진행 |
+
+## Vue 기초 실습
+
+- 기능 요약: `/basics`에서 Vue 3 기본 문법(디렉티브, 이벤트 처리, v-model, scoped style 등)을 예제 단위로 실행하며 학습했다.
+- 트러블슈팅: 다중 체크박스/라디오 버튼이 가로로 나란히 배치되지 않고 세로로 줄바꿈되는 문제가 있었다. 원인은 `practice.css`의 `input` 전역 선택자가 `type` 구분 없이 체크박스/라디오에도 `padding`/`border`/`border-radius`를 적용해 네이티브 체크박스 크기를 과도하게 키운 것이었고, 여기에 브라우저 기본 여백을 정리해주는 `main.css`/`base.css` 리셋(`box-sizing: border-box; margin: 0;`)이 프로젝트에 없어 문제가 더 두드러졌다. 참고용 실습 프로젝트의 `base.css`/`main.css`를 가져와 `main.js`에서 import해 리셋을 적용하는 방식으로 해결했다.
+- 개인적으로 추가한 부분: (해당 없음 — 과제 요구사항을 그대로 실행/실습)
+
+## Weather 실습
+
+Weather 과제는 하나의 화면을 단계적으로 발전시키는 방식으로 진행했다. 각 단계는 이전 단계의 결과물을 이어받아 기능을 추가한다.
+
+### 1단계 — Mockup (`WeatherMockup.vue`)
+
+- 기능 요약: weatherList를 ref로 선언해 정적 도시 데이터를 v-for로 렌더링한다. 카드를 클릭하면 상태바 문구가 갱신되고, 상세보기 버튼을 클릭하면 click.stop으로 카드 클릭과 분리되어 alert로 상세 정보를 보여준다. 온도 25도를 기준으로 배지를 다르게 표시한다.
+- 트러블슈팅: (겪은 문제와 해결 과정)
+- 개인적으로 추가한 부분: (본인만의 데이터 등 요구사항 이상으로 시도해본 것)
+
+### 2단계 — Composition (`WeatherComposition.vue`)
+
+- 기능 요약: computed로 만든 filteredWeatherList가 검색어에 따라 목록을 실시간으로 필터링한다. 검색 결과가 없으면 안내 문구를 보여준다. watch로 selectedCityInfo 변화를, watchEffect로 searchQuery 변화를 각각 콘솔에 로그로 남긴다.
+- 트러블슈팅:
+- 개인적으로 추가한 부분:
