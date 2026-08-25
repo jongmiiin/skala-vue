@@ -2,6 +2,17 @@
 
 SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로 구성되어 있다.
 
+## 화면 구성
+
+원래 실습은 `App.vue` 하나에 모든 컴포넌트를 나열하는 방식이었지만, 화면이 늘어날수록 관리가 어려워질 것 같아 vue-router로 페이지를 분리하는 구조를 도입했다. vue-router 자체는 Weather 실습 4단계(라우터 적용)에서 다루는 내용이라 커리큘럼상 아직 배우지 않은 부분이었는데, 미리 찾아보고 프로젝트 전체 구조에 적용해봤다.
+
+- `App.vue`는 Header/NavBar/Footer와 `<RouterView>`만 갖는 공통 셸(shell) 역할만 한다.
+- `/` (`HomeView.vue`) — 실습 목록을 카드 형태로 보여주는 랜딩 페이지.
+- `/basics` (`BasicsView.vue`) — Vue 기초 문법 실습 화면.
+- `/weather` (`WeatherView.vue`) — Weather 실습 화면.
+
+새 실습을 시작할 때마다 컴포넌트 폴더 추가 → View 추가 → 라우트 등록 → 홈 화면에 카드 추가, 이 네 단계만 반복하면 되는 구조로 만들었다.
+
 ## 실습 단원 목록
 
 | 단원     | 경로       | 개요                                         |
