@@ -4,7 +4,11 @@ const navLinks = [
   { name: 'basic', label: 'Basic' },
   { name: 'composition', label: 'Composition' },
   { name: 'component', label: 'Component' },
-  { name: 'weather', label: 'Weather' },
+  { name: 'weather-task1', label: 'Weather 1' },
+  { name: 'weather-task2', label: 'Weather 2' },
+  { name: 'weather-task3', label: 'Weather 3' },
+  // { name: 'weather-task4', label: 'Weather 4' },
+  // { name: 'weather-task5', label: 'Weather 5' },
 ]
 </script>
 

@@ -7,7 +7,21 @@ const assignments = [
     desc: 'reactive/ref, computed, watch/watchEffect 등 연습',
   },
   { name: 'component', title: 'Component 실습', desc: '생명주기, props/emit, 슬롯 등 연습' },
-  { name: 'weather', title: 'Weather 실습', desc: 'props/emits, composition, 상태 관리 응용 실습' },
+  {
+    name: 'weather-task1',
+    title: 'Weather 실습1',
+    desc: 'v-for/:key, :value+@input, v-if/v-else 조건부, click/click.stop 실습',
+  },
+  {
+    name: 'weather-task2',
+    title: 'Weather 실습2',
+    desc: 'computed로 검색 필터링, watch/watchEffect로 상태 변화 추적 로직 실습',
+  },
+  {
+    name: 'weather-task3',
+    title: 'Weather 실습3',
+    desc: 'SearchBar/WeatherCard 등 컴포넌트 분리, props + emit 실습',
+  },
 ]
 </script>
 

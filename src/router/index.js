@@ -11,7 +11,21 @@ const router = createRouter({
       component: () => import('@/views/CompositionView.vue'),
     },
     { path: '/component', name: 'component', component: () => import('@/views/ComponentView.vue') },
-    { path: '/weather', name: 'weather', component: () => import('@/views/WeatherView.vue') },
+    {
+      path: '/weather/task1',
+      name: 'weather-task1',
+      component: () => import('@/views/weather/WeatherTask1.vue'),
+    },
+    {
+      path: '/weather/task2',
+      name: 'weather-task2',
+      component: () => import('@/views/weather/WeatherTask2.vue'),
+    },
+    {
+      path: '/weather/task3',
+      name: 'weather-task3',
+      component: () => import('@/views/weather/WeatherTask3.vue'),
+    },
   ],
 })
 
