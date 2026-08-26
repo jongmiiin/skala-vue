@@ -1,7 +1,13 @@
 <script setup>
 const assignments = [
-  { name: 'basics', title: 'Vue 기초 실습', desc: 'bind, if, for, event, model 등 기본 문법 연습' },
-  { name: 'weather', title: 'Weather 실습', desc: 'props/emits, composition, 상태 관리 연습' },
+  { name: 'basic', title: 'Vue 기초 실습', desc: 'bind, if, for, event, model 등 기본 문법 연습' },
+  {
+    name: 'composition',
+    title: 'Composition 실습',
+    desc: 'reactive/ref, computed, watch/watchEffect 등 연습',
+  },
+  { name: 'component', title: 'Component 실습', desc: '생명주기, props/emit, 슬롯 등 연습' },
+  { name: 'weather', title: 'Weather 실습', desc: 'props/emits, composition, 상태 관리 응용 실습' },
 ]
 </script>
 
@@ -13,7 +19,15 @@ const assignments = [
         v-for="item in assignments"
         :key="item.name"
         :to="{ name: item.name }"
-        style="display: block; width: 220px; padding: 16px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: inherit"
+        style="
+          display: block;
+          width: 220px;
+          padding: 16px;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          text-decoration: none;
+          color: inherit;
+        "
       >
         <h3 style="margin: 0 0 8px">{{ item.title }}</h3>
         <p style="margin: 0; color: #666; font-size: 0.9rem">{{ item.desc }}</p>
