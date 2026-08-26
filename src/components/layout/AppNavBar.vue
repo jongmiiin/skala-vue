@@ -13,7 +13,7 @@ const navLinks = [
 </script>
 
 <template>
-  <nav style="display: flex; gap: 12px; padding: 12px 20px; background: #f5f5f5">
+  <nav style="display: flex; flex-wrap: wrap; gap: 12px; padding: 12px 20px; background: #f5f5f5">
     <RouterLink
       v-for="link in navLinks"
       :key="link.name"
