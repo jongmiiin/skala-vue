@@ -15,6 +15,10 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 
 새 실습을 시작할 때마다 컴포넌트 폴더 추가 → View 추가 → 라우트 등록 → 홈 화면에 카드 추가, 이 네 단계만 반복하면 되는 구조로 만들었다.
 
+### 트러블슈팅 — 넓은 화면에서 레이아웃이 2단으로 깨지는 문제
+
+뷰포트가 1024px 이상일 때 Header/NavBar가 한 행에, Main/Footer가 다음 행에 나란히 배치되며 레이아웃이 깨지는 문제가 있었다. 원인은 `create-vue` 스캐폴드가 기본으로 넣어주는 `src/assets/main.css`의 2단 데모용 미디어 쿼리(`@media (min-width: 1024px)`에서 `#app`을 `display: grid; grid-template-columns: 1fr 1fr`로 바꾸는 규칙)가 라우터·셸 구조를 도입한 뒤에도 그대로 남아 있던 것이었다. `App.vue`의 최상위 형제 4개(`AppHeader`, `AppNavBar`, `<main>`, `AppFooter`)가 이 grid의 자식이 되면서 브라우저가 자동으로 2행 2열로 배치했고, 1024px 미만에서는 미디어 쿼리가 적용되지 않아 문제가 드러나지 않았다. 해당 미디어 쿼리를 삭제해 원래 의도한 세로 스택 레이아웃(Header → NavBar → Main → Footer)으로 되돌리고, 좁은 화면에서 네비게이션 링크(7개)가 한 줄에 넘치지 않도록 `AppNavBar.vue`의 nav 스타일에 `flex-wrap: wrap`을 추가해 해결했다.
+
 ## 실습 단원 목록
 
 | 단원        | 경로                                 | 개요                                                    |
