@@ -1,14 +1,35 @@
 <script setup>
 import { useConfigStore } from '@/stores/configStore'
+import { ElMessage } from 'element-plus'
+import { computed } from 'vue'
+
 const configStore = useConfigStore()
+
+const isFahrenheit = computed({
+  get: () => configStore.unit === 'fahrenheit',
+  set: () => {
+    configStore.toggleUnit()
+    ElMessage.success(
+      configStore.unit === 'fahrenheit' ? '🌡️ 화씨(℉)로 전환했어요' : '🌡️ 섭씨(℃)로 전환했어요',
+    )
+  },
+})
 </script>
 
 <template>
-  <div style="text-align: center; margin-left: auto; display: inline-flex; align-items: center; gap: 8px">
+  <div
+    style="
+      text-align: center;
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    "
+  >
     <span
       >날씨단위: <strong>{{ configStore.unit === 'celsius' ? '섭씨(℃)' : '화씨(℉)' }}</strong></span
     >
-    <button @click="configStore.toggleUnit" class="toggle-btn">단위변경</button>
+    <el-switch v-model="isFahrenheit" active-text="℉" inactive-text="℃" />
   </div>
 </template>
 
