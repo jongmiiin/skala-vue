@@ -15,22 +15,22 @@ const router = createRouter({
     {
       path: '/weather/task1',
       name: 'weather-task1',
-      component: () => import('@/views/weather/WeatherTask1.vue'),
+      component: () => import('@/views/weather/WeatherTask1View.vue'),
     },
     {
       path: '/weather/task2',
       name: 'weather-task2',
-      component: () => import('@/views/weather/WeatherTask2.vue'),
+      component: () => import('@/views/weather/WeatherTask2View.vue'),
     },
     {
       path: '/weather/task3',
       name: 'weather-task3',
-      component: () => import('@/views/weather/WeatherTask3.vue'),
+      component: () => import('@/views/weather/WeatherTask3View.vue'),
     },
     {
       path: '/weather/task4',
       name: 'weather-task4',
-      component: () => import('@/views/weather/WeatherTask4.vue'),
+      component: () => import('@/views/weather/WeatherTask4View.vue'),
       redirect: { name: 'weather-task4-home' },
       children: [
         {
@@ -53,7 +53,7 @@ const router = createRouter({
     {
       path: '/weather/task5',
       name: 'weather-task5',
-      component: () => import('@/views/weather/WeatherTask5.vue'),
+      component: () => import('@/views/weather/WeatherTask5View.vue'),
       redirect: { name: 'weather-task5-home' },
       children: [
         {
