@@ -51,6 +51,29 @@ const router = createRouter({
       ],
     },
     {
+      path: '/weather/task5',
+      name: 'weather-task5',
+      component: () => import('@/views/weather/WeatherTask5.vue'),
+      redirect: { name: 'weather-task5-home' },
+      children: [
+        {
+          path: '',
+          name: 'weather-task5-home',
+          component: () => import('@/views/weather/WeatherTask5HomeView.vue'),
+        },
+        {
+          path: ':cityId',
+          name: 'weather-task5-detail',
+          component: () => import('@/views/weather/WeatherTask5DetailView.vue'),
+        },
+        {
+          path: 'about',
+          name: 'weather-task5-about',
+          component: () => import('@/views/weather/WeatherTask5AboutView.vue'),
+        },
+      ],
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/NotFoundView.vue'),

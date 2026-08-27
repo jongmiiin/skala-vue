@@ -9,7 +9,7 @@ const navLinks = [
   { name: 'weather-task2', label: 'Weather 2' },
   { name: 'weather-task3', label: 'Weather 3' },
   { name: 'weather-task4', label: 'Weather 4' },
-  // { name: 'weather-task5', label: 'Weather 5' },
+  { name: 'weather-task5', label: 'Weather-Final' },
 ]
 </script>
 

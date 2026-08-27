@@ -32,6 +32,11 @@ const assignments = [
     title: 'Weather 실습4',
     desc: '중첩 라우트, 동적 라우트(:cityId), router.push, 쿼리스트링 검색 실습',
   },
+  {
+    name: 'weather-task5',
+    title: 'Weather 실습5 & 최종',
+    desc: 'Pinia 전역 스토어, 단위(섭씨/화씨) 상태 관리, 실시간 온도 변환 실습',
+  },
 ]
 </script>
 
