@@ -16,6 +16,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 - `/library` (`LibraryView.vue`) — 외부 라이브러리(Pinia, Axios, Element Plus 등) 실습 화면.
 - `/weather/task1`, `/weather/task2`, `/weather/task3` (`weather/WeatherTask1-3.vue`) — Weather 실습 화면(단계별로 화면을 분리).
 - `/weather/task4`와 그 하위 경로(`/weather/task4/:cityId`, `/weather/task4/about`) (`weather/WeatherTask4*.vue`) — Weather 4단계, 중첩 라우트를 적용한 화면.
+- `/weather/task5`와 그 하위 경로(`/weather/task5/:cityId`, `/weather/task5/about`) (`weather/WeatherTask5*.vue`) — Weather 5단계(최종), Pinia 스토어로 온도 단위를 전역 관리하는 화면.
 
 새 실습을 시작할 때마다 컴포넌트 폴더 추가 → View 추가 → 라우트 등록 → 홈 화면에 카드 추가, 이 네 단계만 반복하면 되는 구조로 만들었다.
 
@@ -31,7 +32,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 | Composition | `/composition`                      | Composition API(ref/reactive/computed/watch) 예제 학습   |
 | Component   | `/component`                        | 컴포넌트 생명주기, props/emit, 슬롯 예제 학습            |
 | Library     | `/library`                          | Pinia, Axios, Element Plus, 최신 JS 문법 4개 주제로 학습 |
-| Weather     | `/weather/task1` - `/weather/task4` | 날씨 대시보드를 총 5단계로 계획하고, 현재 4단계까지 진행 |
+| Weather     | `/weather/task1` - `/weather/task5` | 날씨 대시보드를 총 5단계로 계획하고, 현재 5단계까지 진행 |
 
 ## Vue 기초 실습
 
@@ -83,4 +84,10 @@ Weather 과제는 하나의 화면을 단계적으로 발전시키는 방식으�
 
 - 기능 요약: `WeatherTask4.vue`를 부모 라우트로 두고 `<RouterView>`로 자식 화면(`home`, `detail`, `about`)을 전환하는 중첩 라우트 구조를 적용했다. `WeatherTask4HomeView.vue`는 검색어를 `watch`로 감시해 `router.push`로 쿼리스트링(`?search=`)에 동기화하고, `onMounted`에서 쿼리스트링 값을 다시 읽어와 검색 상태를 복원한다. 카드 클릭 시 `router.push({ name: 'weather-task4-detail', params: { cityId } })`로 동적 라우트 파라미터를 이용해 상세 페이지로 이동하고, `WeatherTask4DetailView.vue`는 `route.params.cityId`로 해당 도시의 상세 데이터를 조회해 보여준다.
 - 트러블슈팅:
+- 개인적으로 추가한 부분:
+
+### 5단계 — 스토어 적용 (`WeatherTask5.vue`)
+
+- 기능 요약: `stores/configStore.js`에 Pinia 스토어(`unit` 상태, `unitSymbol` getter, `toggleUnit` action)를 만들어 온도 단위(섭씨/화씨)를 전역으로 관리한다. `UnitToggler.vue`가 `configStore.toggleUnit()`을 호출해 상태를 바꾸면, `WeatherCard.vue`와 `WeatherTask5DetailView.vue`가 각각 `useConfigStore()`를 구독해 `computed`로 만든 `displayTemp`(단위가 화씨일 때 섭씨→화씨 변환)와 `configStore.unitSymbol`을 함께 렌더링해, 목록·상세 화면의 온도가 버튼 클릭 한 번에 동시에 바뀐다.
+- 트러블슈팅: `WeatherCard.vue`에서 `defineProps({...})`의 반환값을 변수에 담지 않은 채 새로 추가한 `computed` 안에서 `props.cityItem.temp`를 참조해 `props is not defined` 에러가 났다. `<script setup>`은 템플릿에서는 props를 자동으로 노출해주지만 스크립트 로직 안에서 props 값을 쓰려면 `const props = defineProps(...)`처럼 반환값을 직접 변수로 받아야 한다는 걸 확인하고 그렇게 고쳐 해결했다.
 - 개인적으로 추가한 부분:
