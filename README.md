@@ -16,7 +16,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 - `/library` (`LibraryView.vue`) — 외부 라이브러리(Pinia, Axios, Element Plus 등) 실습 화면.
 - `/weather/task1`, `/weather/task2`, `/weather/task3` (`weather/WeatherTask1-3.vue`) — Weather 실습 화면(단계별로 화면을 분리).
 - `/weather/task4`와 그 하위 경로(`/weather/task4/:cityId`, `/weather/task4/about`) (`weather/WeatherTask4*.vue`) — Weather 4단계, 중첩 라우트를 적용한 화면.
-- `/weather/task5`와 그 하위 경로(`/weather/task5/:cityId`, `/weather/task5/about`) (`weather/WeatherTask5*.vue`) — Weather 5단계(최종), Pinia 스토어로 온도 단위를 전역 관리하는 화면.
+- `/weather/task5`와 그 하위 경로(`/weather/task5/:cityId`, `/weather/task5/about`) (`weather/WeatherTask5*.vue`) — Weather 5단계(최종), Pinia 스토어로 온도 단위와 실시간 도시별 날씨 데이터를 전역 관리하는 화면.
 
 새 실습을 시작할 때마다 컴포넌트 폴더 추가 → View 추가 → 라우트 등록 → 홈 화면에 카드 추가, 이 네 단계만 반복하면 되는 구조로 만들었다.
 
@@ -88,8 +88,10 @@ Weather 과제는 하나의 화면을 단계적으로 발전시키는 방식으�
 
 ### 5단계 — 스토어 적용 (`WeatherTask5.vue`)
 
-- 기능 요약: `stores/configStore.js`에 Pinia 스토어(`unit` 상태, `unitSymbol` getter, `toggleUnit` action)를 만들어 온도 단위(섭씨/화씨)를 전역으로 관리한다. `UnitToggler.vue`가 `configStore.toggleUnit()`을 호출해 상태를 바꾸면, `WeatherCard.vue`와 `WeatherTask5DetailView.vue`가 각각 `useConfigStore()`를 구독해 `computed`로 만든 `displayTemp`(단위가 화씨일 때 섭씨→화씨 변환)와 `configStore.unitSymbol`을 함께 렌더링해, 목록·상세 화면의 온도가 버튼 클릭 한 번에 동시에 바뀐다.
+- 기능 요약: `stores/configStore.js`(온도 단위 섭씨/화씨)와 `stores/weatherStore.js`(도시별 실시간 날씨) 두 Pinia 스토어로 Home/Detail 화면이 상태를 공유한다. `weatherStore`는 한국 주요 도시 12곳과 더움/추움 대비를 위한 해외 도시 6곳(모스크바, 헬싱키, 오슬로, 레이캬비크, 앵커리지, 남극 맥머도기지)의 좌표를 갖고 있다가, 화면 진입 시 OpenWeather 현재 날씨 API를 병렬로 호출해 실시간 데이터를 채우면서 `el-progress`로 로딩 진행률을 보여준다. `UnitToggler.vue`가 `configStore.toggleUnit()`을 호출하면 `WeatherCard.vue`와 `WeatherTask5DetailView.vue`가 함께 구독하는 `displayTemp`가 즉시 섭씨/화씨로 바뀐다.
 - 트러블슈팅: `WeatherCard.vue`에서 `defineProps({...})`의 반환값을 변수에 담지 않은 채 새로 추가한 `computed` 안에서 `props.cityItem.temp`를 참조해 `props is not defined` 에러가 났다. `<script setup>`은 템플릿에서는 props를 자동으로 노출해주지만 스크립트 로직 안에서 props 값을 쓰려면 `const props = defineProps(...)`처럼 반환값을 직접 변수로 받아야 한다는 걸 확인하고 그렇게 고쳐 해결했다.
 - 개인적으로 추가한 부분
-  - Element Plus `el-progress`로 카드마다 온도를 시각화하는 "더위 게이지"를 추가했다. 게이지 비율은 항상 원본 섭씨 값(`cityItem.temp`)을 기준으로 계산해서, 단위를 화씨로 바꿔도 게이지가 깨지지 않고 실제 더위 정도를 일관되게 보여준다. 처음엔 `:status="'exception'"`으로 더운 카드를 빨갛게 표시했는데, `el-progress`가 `status`가 `success`/`exception`일 때 퍼센트 숫자 대신 상태 아이콘으로 자동 교체해버려서 숫자가 안 보이는 문제가 있었다 — `:status` 대신 `:color`로 직접 색을 지정해 해결했고, `:format`으로 "🌡️ 더위 N%" 라벨을 붙여 게이지의 의미를 바로 알아볼 수 있게 만들었다.
   - 단위 변경 버튼도 `el-switch` + `ElMessage`로 바꿨다. `el-switch`는 boolean 값만 받기 때문에 `computed({ get, set })`으로 스토어의 문자열 `unit`과 boolean 사이를 변환하는 다리를 만들었고, `set`에서 `configStore.toggleUnit()`을 먼저 호출한 뒤 `configStore.unit`을 다시 읽어 토스트 문구를 만들어야 실제로 바뀐 단위와 메시지가 어긋나지 않는다는 걸 확인했다.
+  - 하드코딩된 3개 도시 목업 데이터 대신, `weatherStore.js`에 도시 좌표 목록을 두고 화면 진입 시 OpenWeather 현재 날씨 API를 `Promise.all`로 병렬 호출해 실제 데이터를 채우도록 바꿨다. 완료된 도시 수만큼 `el-progress`가 차오르는 진짜 진행바를 붙였고(Library 실습의 `setInterval` 가짜 진행바보다 한 단계 더 나간 활용), Home과 Detail이 같은 스토어를 구독해서 상세보기에서도 실제 습도·풍속까지 확인할 수 있게 했다.
+  - 처음엔 한국 도시만 있어서 온도가 다 비슷하게 몰려있었다. "더움과 추움의 차이"를 보여주려고 모스크바·헬싱키·오슬로·레이캬비크·앵커리지와 남극 맥머도기지를 좌표로 추가했다(맥머도는 지금 남반구 겨울이라 확실히 영하권으로 나옴). 배지도 `더움`/`선선함` 2단계에서 `추움`을 더해 3단계로 나눴다.
+  - 처음엔 영하 20도부터 35도까지를 0퍼센트부터 100퍼센트까지로 매핑한 "더위 게이지"를 만들었는데, 18°C 같은 평범한 온도도 "더위 60%"처럼 체감과 안 맞는 숫자가 나오는 문제가 있었다(임의로 정한 온도 구간 매핑 자체가 비직관적이었음). 이 과정에서 `el-progress`가 `status`를 `success`/`exception`으로 주면 퍼센트 숫자 대신 상태 아이콘으로 자동 교체된다는 것도 배웠다(`:color`로 우회). 결국 게이지는 API가 이미 0에서 100 사이 값으로 주는 습도를 그대로 쓰는 게 훨씬 자연스러워서 "💧 습도 N%" 게이지로 정리했다.
