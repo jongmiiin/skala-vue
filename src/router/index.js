@@ -11,6 +11,7 @@ const router = createRouter({
       component: () => import('@/views/CompositionView.vue'),
     },
     { path: '/component', name: 'component', component: () => import('@/views/ComponentView.vue') },
+    { path: '/library', name: 'library', component: () => import('@/views/LibraryView.vue') },
     {
       path: '/weather/task1',
       name: 'weather-task1',

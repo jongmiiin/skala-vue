@@ -7,6 +7,7 @@ const assignments = [
     desc: 'reactive/ref, computed, watch/watchEffect 등 연습',
   },
   { name: 'component', title: 'Component 실습', desc: '생명주기, props/emit, 슬롯 등 연습' },
+  { name: 'library', title: 'Library 실습', desc: 'Pinia 스토어, Axios 통신, Element Plus, 최신 JS 문법 등 연습' },
   {
     name: 'weather-task1',
     title: 'Weather 실습1',
