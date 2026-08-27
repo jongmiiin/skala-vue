@@ -90,4 +90,4 @@ Weather 과제는 하나의 화면을 단계적으로 발전시키는 방식으�
 
 - 기능 요약: `stores/configStore.js`에 Pinia 스토어(`unit` 상태, `unitSymbol` getter, `toggleUnit` action)를 만들어 온도 단위(섭씨/화씨)를 전역으로 관리한다. `UnitToggler.vue`가 `configStore.toggleUnit()`을 호출해 상태를 바꾸면, `WeatherCard.vue`와 `WeatherTask5DetailView.vue`가 각각 `useConfigStore()`를 구독해 `computed`로 만든 `displayTemp`(단위가 화씨일 때 섭씨→화씨 변환)와 `configStore.unitSymbol`을 함께 렌더링해, 목록·상세 화면의 온도가 버튼 클릭 한 번에 동시에 바뀐다.
 - 트러블슈팅: `WeatherCard.vue`에서 `defineProps({...})`의 반환값을 변수에 담지 않은 채 새로 추가한 `computed` 안에서 `props.cityItem.temp`를 참조해 `props is not defined` 에러가 났다. `<script setup>`은 템플릿에서는 props를 자동으로 노출해주지만 스크립트 로직 안에서 props 값을 쓰려면 `const props = defineProps(...)`처럼 반환값을 직접 변수로 받아야 한다는 걸 확인하고 그렇게 고쳐 해결했다.
-- 개인적으로 추가한 부분:
+- 개인적으로 추가한 부분: Element Plus `el-progress`로 카드마다 온도를 시각화하는 "더위 게이지"를 추가했다. 게이지 비율은 항상 원본 섭씨 값(`cityItem.temp`)을 기준으로 계산해서, 단위를 화씨로 바꿔도 게이지가 깨지지 않고 실제 더위 정도를 일관되게 보여준다. 처음엔 `:status="'exception'"`으로 더운 카드를 빨갛게 표시했는데, `el-progress`가 `status`가 `success`/`exception`일 때 퍼센트 숫자 대신 상태 아이콘으로 자동 교체해버려서 숫자가 안 보이는 문제가 있었다 — `:status` 대신 `:color`로 직접 색을 지정해 해결했고, `:format`으로 "🌡️ 더위 N%" 라벨을 붙여 게이지의 의미를 바로 알아볼 수 있게 만들었다.
