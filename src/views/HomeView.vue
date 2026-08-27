@@ -7,7 +7,11 @@ const assignments = [
     desc: 'reactive/ref, computed, watch/watchEffect 등 연습',
   },
   { name: 'component', title: 'Component 실습', desc: '생명주기, props/emit, 슬롯 등 연습' },
-  { name: 'library', title: 'Library 실습', desc: 'Pinia 스토어, Axios 통신, Element Plus, 최신 JS 문법 등 연습' },
+  {
+    name: 'library',
+    title: 'Library 실습',
+    desc: 'Pinia 스토어, Axios 통신, Element Plus, 최신 JS 문법 등 연습',
+  },
   {
     name: 'weather-task1',
     title: 'Weather 실습1',
@@ -22,6 +26,11 @@ const assignments = [
     name: 'weather-task3',
     title: 'Weather 실습3',
     desc: 'SearchBar/WeatherCard 등 컴포넌트 분리, props + emit 실습',
+  },
+  {
+    name: 'weather-task4',
+    title: 'Weather 실습4',
+    desc: '중첩 라우트, 동적 라우트(:cityId), router.push, 쿼리스트링 검색 실습',
   },
 ]
 </script>
