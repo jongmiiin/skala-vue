@@ -22,6 +22,12 @@ const displayTemp = computed(() => {
   }
   return rawTemp // 'celsius'일 때는 원본 그대로 반환
 })
+
+// 3. 더위게이지 추가
+const heatPercentage = computed(() => {
+  const t = props.cityItem.temp // 항상 원본 섭씨값 사용 (섭씨값을 기준으로 비율을 만들기 때문)
+  return Math.min(100, Math.max(0, Math.round(((t - 10) / (35 - 10)) * 100)))
+})
 </script>
 
 <template>
@@ -31,6 +37,12 @@ const displayTemp = computed(() => {
 
     <span v-if="cityItem.temp >= 25" class="badge hot">🔥 더움</span>
     <span v-else class="badge cool">❄️ 선선함</span>
+    <el-progress
+      :percentage="heatPercentage"
+      :color="cityItem.temp >= 25 ? '#f56c6c' : '#409eff'"
+      :stroke-width="10"
+      :format="() => `🌡️ 더위 ${heatPercentage}%`"
+    />
 
     <button class="btn-detail" @click.stop="emit('click-detail', cityItem.name, cityItem.status)">
       상세보기
