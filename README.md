@@ -2,6 +2,8 @@
 
 SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로 구성되어 있다.
 
+**배포 주소**: https://skala-vue-jm.pages.dev (Cloudflare Pages)
+
 ## 화면 구성
 
 원래 실습은 `App.vue` 하나에 모든 컴포넌트를 나열하는 방식이었지만, 화면이 늘어날수록 관리가 어려워질 것 같아 vue-router로 페이지를 분리하는 구조를 도입했다. vue-router 자체는 Weather 실습 4단계(라우터 적용)에서 다루는 내용이라 커리큘럼상 아직 배우지 않은 부분이었는데, 미리 찾아보고 프로젝트 전체 구조에 적용해봤다.
@@ -13,6 +15,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 - `/component` (`ComponentView.vue`) — 컴포넌트(생명주기, props/emit, 슬롯) 실습 화면.
 - `/library` (`LibraryView.vue`) — 외부 라이브러리(Pinia, Axios, Element Plus 등) 실습 화면.
 - `/weather/task1`, `/weather/task2`, `/weather/task3` (`weather/WeatherTask1-3.vue`) — Weather 실습 화면(단계별로 화면을 분리).
+- `/weather/task4`와 그 하위 경로(`/weather/task4/:cityId`, `/weather/task4/about`) (`weather/WeatherTask4*.vue`) — Weather 4단계, 중첩 라우트를 적용한 화면.
 
 새 실습을 시작할 때마다 컴포넌트 폴더 추가 → View 추가 → 라우트 등록 → 홈 화면에 카드 추가, 이 네 단계만 반복하면 되는 구조로 만들었다.
 
@@ -28,7 +31,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 | Composition | `/composition`                      | Composition API(ref/reactive/computed/watch) 예제 학습   |
 | Component   | `/component`                        | 컴포넌트 생명주기, props/emit, 슬롯 예제 학습            |
 | Library     | `/library`                          | Pinia, Axios, Element Plus, 최신 JS 문법 4개 주제로 학습 |
-| Weather     | `/weather/task1` - `/weather/task3` | 날씨 대시보드를 총 5단계로 계획하고, 현재 3단계까지 진행 |
+| Weather     | `/weather/task1` - `/weather/task4` | 날씨 대시보드를 총 5단계로 계획하고, 현재 4단계까지 진행 |
 
 ## Vue 기초 실습
 
@@ -73,5 +76,11 @@ Weather 과제는 하나의 화면을 단계적으로 발전시키는 방식으�
 ### 3단계 — Component (`WeatherParent.vue`)
 
 - 기능 요약: 2단계의 단일 컴포넌트 구조를 `WeatherParent.vue`(부모)와 `SearchBar.vue`, `WeatherCard.vue`(자식)로 분리했다. `SearchBar`는 입력값을 `update-query` 이벤트로, `WeatherCard`는 카드 클릭과 상세보기를 각각 `select-card`/`click-detail` 이벤트로 부모에 전달하고, 부모는 `cityItem` 등 데이터를 props로 자식에 내려주는 단방향 데이터 흐름(props 하향, emit 상향)을 실습했다.
+- 트러블슈팅:
+- 개인적으로 추가한 부분:
+
+### 4단계 — 라우터 적용 (`WeatherTask4.vue`)
+
+- 기능 요약: `WeatherTask4.vue`를 부모 라우트로 두고 `<RouterView>`로 자식 화면(`home`, `detail`, `about`)을 전환하는 중첩 라우트 구조를 적용했다. `WeatherTask4HomeView.vue`는 검색어를 `watch`로 감시해 `router.push`로 쿼리스트링(`?search=`)에 동기화하고, `onMounted`에서 쿼리스트링 값을 다시 읽어와 검색 상태를 복원한다. 카드 클릭 시 `router.push({ name: 'weather-task4-detail', params: { cityId } })`로 동적 라우트 파라미터를 이용해 상세 페이지로 이동하고, `WeatherTask4DetailView.vue`는 `route.params.cityId`로 해당 도시의 상세 데이터를 조회해 보여준다.
 - 트러블슈팅:
 - 개인적으로 추가한 부분:
