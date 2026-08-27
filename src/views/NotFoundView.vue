@@ -13,13 +13,13 @@ const goHome = () => {
   <div class="not-found-container">
     <div class="not-found-content">
       <!-- 시각적 포인트를 위한 아이콘 또는 큰 텍스트 (옵션) -->
-      <div class="error-icon">☀️❓</div>
+      <div class="error-icon">⛅❓</div>
 
       <h2>페이지를 찾을 수 없습니다.</h2>
       <p>요청하신 주소가 존재하지 않거나,<br />아직 개발되지 않았습니다.</p>
 
       <!-- 포인트 컬러가 적용된 버튼 -->
-      <button class="home-button" @click="goHome">메인으로 이동</button>
+      <el-button type="primary" round size="large" @click="goHome">메인으로 이동</el-button>
     </div>
   </div>
 </template>
@@ -65,26 +65,4 @@ p {
   margin-bottom: 35px;
 }
 
-.home-button {
-  background-color: #007bff; /* 날씨 앱 포인트 컬러 (파란색) */
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-radius: 30px; /* 둥근 버튼 */
-  cursor: pointer;
-  transition:
-    background-color 0.2s ease,
-    transform 0.1s ease;
-}
-
-/* Hover 및 Active 효과 */
-.home-button:hover {
-  background-color: #0056b3; /* 조금 짙은 파란색 */
-}
-
-.home-button:active {
-  transform: scale(0.98); /* 클릭 시 살짝 눌리는 효과 */
-}
 </style>

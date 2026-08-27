@@ -26,7 +26,11 @@ const displayTemp = computed(() => {
 </script>
 
 <template>
-  <div class="weather-card" @click="emit('select-card', `${cityItem.name} 선택완료`)">
+  <div
+    class="weather-card"
+    :class="cityItem.temp >= 25 ? 'bg-hot' : cityItem.temp >= 10 ? 'bg-cool' : 'bg-cold'"
+    @click="emit('select-card', `${cityItem.name} 선택완료`)"
+  >
     <h4>{{ cityItem.name }} ({{ cityItem.status }})</h4>
     <p>현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
 
@@ -36,12 +40,19 @@ const displayTemp = computed(() => {
     <el-progress
       :percentage="cityItem.humidity"
       :stroke-width="10"
+      :color="'#606266'"
       :format="() => `💧 습도 ${cityItem.humidity}%`"
     />
 
-    <button class="btn-detail" @click.stop="emit('click-detail', cityItem.name, cityItem.status)">
+    <el-button
+      class="btn-detail"
+      color="#77dd77"
+      size="small"
+      plain
+      @click.stop="emit('click-detail', cityItem.name, cityItem.status)"
+    >
       상세보기
-    </button>
+    </el-button>
   </div>
 </template>
 
@@ -71,11 +82,20 @@ const displayTemp = computed(() => {
 .cold {
   background-color: #0984e3;
 }
+.bg-hot {
+  background-color: #fdeeee;
+}
+.bg-cool {
+  background-color: #eaf6fd;
+}
+.bg-cold {
+  background-color: #e4ecfb;
+}
 .btn-detail {
   position: absolute;
   right: 12px;
   top: 15px;
-  padding: 6px 10px;
-  cursor: pointer;
+  color: #2e7d32 !important;
+  font-weight: 700 !important;
 }
 </style>

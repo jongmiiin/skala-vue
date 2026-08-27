@@ -15,13 +15,13 @@ const handleGoHome = () => {
 
     <div class="description-box">
       <p>
-        본 앱은 <strong>Vue 3</strong> 및 <strong>Vue Router 4</strong> 기반 제작된 실습용 기상 관측
-        대시보드 시스템입니다.
+        <strong>SKALA Frontend 실습</strong>으로 만든 실시간 날씨 대시보드입니다. Vue 3, Vue Router,
+        Pinia로 화면을 구성하고, OpenWeather API로 실제 도시들의 날씨를 가져와 보여줍니다.
       </p>
       <ul>
-        <li><code>components/exercise/</code> 폴더 내부의 독립 부품 연동</li>
-        <li>클라이언트 사이드 라우팅을 통한 새로고침 없는 화면 전환</li>
-        <li>URL 쿼리 스트링 매핑을 활용한 실시간 검색 상태 동기화</li>
+        <li>실시간 기온·습도·풍속을 OpenWeather API로 바로 조회</li>
+        <li>도시 목록을 검색하고, 섭씨/화씨 단위도 한 번에 전환</li>
+        <li>새로고침 없이 화면을 오가며 도시별 상세 정보 확인</li>
       </ul>
     </div>
 
