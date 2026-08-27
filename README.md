@@ -55,7 +55,7 @@ SKALA 프론트엔드(Vue.js) 실습을 위한 프로젝트다. Vue 3와 Vite로
 ## Library 실습
 
 - 기능 요약: `/library`에서 Pinia를 이용한 전역 상태 관리(state/getter/action), Axios를 이용한 HTTP 통신, Element Plus UI 컴포넌트, 최신 JavaScript(ES6+) 문법 네 가지 주제를 `LibraryView.vue` 한 화면에 순서대로 구현하며 학습
-- 트러블슈팅:
+- 트러블슈팅: Element Plus의 `el-card`, `el-input`, `el-button` 등 컴포넌트를 템플릿에 썼는데 에러 없이 스타일도 안 먹고 동작도 안 하는 문제가 있었다. 원인은 `main.js`에 `element-plus` 전역 등록이 빠진 것이었다 — Vue는 미등록 컴포넌트를 만나면 콘솔에 "Failed to resolve component" 경고만 띄우고 넘어가기 때문에 에러로는 잡히지 않았다. `main.js`에 `import ElementPlus from 'element-plus'`, `import 'element-plus/dist/index.css'`를 추가하고 `app.use(ElementPlus)`로 전역 등록해 해결했다.
 - 개인적으로 추가한 부분: OpenWeather API 키를 코드에 하드코딩하지 않고 `.env.local`(Vite 환경변수, git에는 커밋되지 않음)로 분리해 `import.meta.env.VITE_OPENWEATHER_API_KEY`로 읽도록 만들었다. 실제 값 없이 필요한 환경변수 이름만 보여주는 `.env.example`도 함께 커밋해뒀다. 이렇게 해두면 배포할 때(Cloudflare Pages) 같은 이름으로 환경변수 값만 등록하면 돼서, 코드를 새로 고치지 않고도 키를 가져오기 쉽다.
 
 ## Weather 실습
