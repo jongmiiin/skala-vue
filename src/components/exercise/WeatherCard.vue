@@ -23,25 +23,20 @@ const displayTemp = computed(() => {
   return rawTemp // 'celsius'일 때는 원본 그대로 반환
 })
 
-// 3. 더위게이지 추가
-const heatPercentage = computed(() => {
-  const t = props.cityItem.temp // 항상 원본 섭씨값 사용 (섭씨값을 기준으로 비율을 만들기 때문)
-  return Math.min(100, Math.max(0, Math.round(((t - 10) / (35 - 10)) * 100)))
-})
 </script>
 
 <template>
-  <div class="weather-card" @click="emit('select-card', `${cityItem.name}이 선택되었습니다.`)">
+  <div class="weather-card" @click="emit('select-card', `${cityItem.name} 선택완료`)">
     <h4>{{ cityItem.name }} ({{ cityItem.status }})</h4>
     <p>현재 기온: {{ displayTemp }}{{ configStore.unitSymbol }}</p>
 
     <span v-if="cityItem.temp >= 25" class="badge hot">🔥 더움</span>
-    <span v-else class="badge cool">❄️ 선선함</span>
+    <span v-else-if="cityItem.temp >= 10" class="badge cool">❄️ 선선함</span>
+    <span v-else class="badge cold">🥶 추움</span>
     <el-progress
-      :percentage="heatPercentage"
-      :color="cityItem.temp >= 25 ? '#f56c6c' : '#409eff'"
+      :percentage="cityItem.humidity"
       :stroke-width="10"
-      :format="() => `🌡️ 더위 ${heatPercentage}%`"
+      :format="() => `💧 습도 ${cityItem.humidity}%`"
     />
 
     <button class="btn-detail" @click.stop="emit('click-detail', cityItem.name, cityItem.status)">
@@ -72,6 +67,9 @@ const heatPercentage = computed(() => {
 }
 .cool {
   background-color: #74b9ff;
+}
+.cold {
+  background-color: #0984e3;
 }
 .btn-detail {
   position: absolute;

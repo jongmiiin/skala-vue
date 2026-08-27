@@ -5,15 +5,11 @@ import { useRouter, useRoute } from 'vue-router'
 import BaseDashboardCard from '@/components/exercise/BaseDashboardCard.vue'
 import SearchBar from '@/components/exercise/SearchBar.vue'
 import WeatherCard from '@/components/exercise/WeatherCard.vue'
+import { useWeatherStore } from '@/stores/weatherStore'
 
 const router = useRouter()
 const route = useRoute()
-
-const weatherList = ref([
-  { id: 'city_01', name: '서울', temp: 28, status: '맑음' },
-  { id: 'city_02', name: '수원', temp: 24, status: '비' },
-  { id: 'city_03', name: '부산', temp: 26, status: '구름' },
-])
+const weatherStore = useWeatherStore()
 
 const searchQuery = ref('')
 const selectedCityInfo = ref('카드를 클릭하거나 검색해 보세요.')
@@ -22,6 +18,7 @@ onMounted(() => {
   if (route.query.search) {
     searchQuery.value = route.query.search
   }
+  weatherStore.loadAllCities()
 })
 
 watch(searchQuery, (newQuery) => {
@@ -33,8 +30,8 @@ watch(searchQuery, (newQuery) => {
 
 const filteredWeatherList = computed(() => {
   const query = searchQuery.value.trim()
-  if (!query) return weatherList.value
-  return weatherList.value.filter((item) => item.name.includes(query))
+  if (!query) return weatherStore.cities
+  return weatherStore.cities.filter((item) => item.name.includes(query))
 })
 
 const handleDetailJump = (id) => {
@@ -46,6 +43,14 @@ const handleDetailJump = (id) => {
   <div class="dashboard-wrapper">
     <BaseDashboardCard>
       <SearchBar :current-query="searchQuery" @update-query="(val) => (searchQuery = val)" />
+    </BaseDashboardCard>
+
+    <BaseDashboardCard v-if="weatherStore.isLoading">
+      <p>🇰🇷 전세계 주요 도시 날씨를 불러오는 중...</p>
+      <el-progress
+        :percentage="weatherStore.loadProgress"
+        :status="weatherStore.loadProgress === 100 ? 'success' : ''"
+      />
     </BaseDashboardCard>
 
     <BaseDashboardCard>

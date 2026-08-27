@@ -4,7 +4,7 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
 
 <template>
   <div class="app-container">
-    <h1>⛅ 과제 5: 스토어적용 / 최종</h1>
+    <h1>⛅ 과제 5 / 최종: 스토어적용 + 추가기능</h1>
     <hr />
     <div class="dashboard-wrapper">
       <nav class="navigation-bar">

@@ -1,46 +1,23 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useConfigStore } from '@/stores/configStore'
+import { useWeatherStore } from '@/stores/weatherStore'
 
 const route = useRoute()
 const router = useRouter()
 const configStore = useConfigStore()
+const weatherStore = useWeatherStore()
 
-const mockDetails = {
-  city_01: {
-    name: '대한민국 서울특별시',
-    temp: 28,
-    status: '맑음',
-    humidity: '55%',
-    wind: '2.5m/s',
-  },
-  city_02: {
-    name: '경기도 수원시 영통구',
-    temp: 24,
-    status: '비',
-    humidity: '85%',
-    wind: '4.1m/s',
-  },
-  city_03: {
-    name: '부산광역시 해운대구',
-    temp: 26,
-    status: '구름',
-    humidity: '65%',
-    wind: '5.0m/s',
-  },
-}
-
-const cityData = ref(null)
+const cityData = computed(() => weatherStore.cities.find((c) => c.id === route.params.cityId))
 
 onMounted(() => {
-  const id = route.params.cityId
-  if (mockDetails[id]) {
-    cityData.value = mockDetails[id]
+  if (weatherStore.cities.length === 0) {
+    weatherStore.loadAllCities()
   }
 })
 
-// 🔥 [핵심 과제] 상세 정보창에서도 화씨 상태일 때 기온을 자동 변환 연산하는 센서 장착\\\\\\
+// 🔥 [핵심 과제] 상세 정보창에서도 화씨 상태일 때 기온을 자동 변환 연산하는 센서 장착
 const displayTemp = computed(() => {
   if (!cityData.value) return 0
   const rawTemp = cityData.value.temp // 원본 섭씨 온도
@@ -62,7 +39,7 @@ const displayTemp = computed(() => {
         실시간 기온: <strong>{{ displayTemp }}{{ configStore.unitSymbol }}</strong>
       </p>
       <p>기상 현황: {{ cityData.status }}</p>
-      <p>대기 습도: {{ cityData.humidity }}</p>
+      <p>대기 습도: {{ cityData.humidity }}%</p>
       <p>현재 풍속: {{ cityData.wind }}</p>
     </div>
     <div v-else>
